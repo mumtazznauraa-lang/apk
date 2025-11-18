@@ -1,0 +1,134 @@
+import random
+from datetime import datetime
+
+class DictionaryLiteConsole:
+    def __init__(self):
+        self.dictionary = {
+            "hello": "halo", "world": "dunia", "book": "buku", "student": "siswa/pelajar", "teacher": "guru",
+            "school": "sekolah", "learn": "belajar", "study": "belajar/mempelajari", "friend": "teman",
+            "family": "keluarga", "love": "cinta/mencintai", "happy": "bahagia", "sad": "sedih",
+            "beautiful": "cantik/indah", "smart": "pintar", "good": "baik", "bad": "buruk", "big": "besar",
+            "small": "kecil", "fast": "cepat", "slow": "lambat", "help": "bantuan/membantu", "thank": "terima kasih",
+            "please": "tolong/silakan", "sorry": "maaf", "yes": "ya", "no": "tidak", "computer": "komputer",
+            "internet": "internet", "application": "aplikasi", "program": "program", "language": "bahasa",
+            "dictionary": "kamus", "translation": "terjemahan", "word": "kata", "sentence": "kalimat",
+            "meaning": "arti/makna", "time": "waktu", "day": "hari", "week": "minggu", "month": "bulan",
+            "year": "tahun", "morning": "pagi", "afternoon": "siang", "evening": "sore", "night": "malam",
+            "water": "air", "food": "makanan", "house": "rumah", "car": "mobil", "phone": "telepon",
+            "music": "musik", "game": "permainan", "work": "kerja/pekerjaan", "play": "bermain", "read": "membaca",
+            "write": "menulis", "speak": "berbicara", "listen": "mendengarkan", "think": "berpikir",
+            "know": "tahu/mengetahui", "understand": "mengerti/memahami", "remember": "mengingat",
+            "forget": "lupa", "dream": "mimpi", "hope": "harapan/berharap", "wish": "harapan/berharap",
+            "try": "mencoba", "succeed": "berhasil", "fail": "gagal", "win": "menang", "lose": "kalah",
+            "start": "mulai", "finish": "selesai", "begin": "memulai", "end": "akhir/mengakhiri",
+            "open": "buka/membuka", "close": "tutup/menutup", "give": "memberi", "take": "mengambil",
+            "buy": "membeli", "sell": "menjual", "eat": "makan", "drink": "minum", "sleep": "tidur",
+            "wake": "bangun", "walk": "berjalan", "run": "berlari", "jump": "melompat", "sit": "duduk",
+            "stand": "berdiri", "laugh": "tertawa", "cry": "menangis", "smile": "senyum/tersenyum",
+            "angry": "marah", "excited": "bersemangat", "tired": "lelah", "healthy": "sehat", "sick": "sakit",
+            "strong": "kuat", "weak": "lemah", "young": "muda", "old": "tua", "new": "baru",
+            "easy": "mudah", "difficult": "sulit", "hard": "keras/sulit", "soft": "lembut/lunak",
+            "hot": "panas", "cold": "dingin", "warm": "hangat", "cool": "sejuk/keren", "light": "cahaya/ringan",
+            "dark": "gelap", "heavy": "berat", "clean": "bersih", "dirty": "kotor", "quiet": "tenang/diam",
+            "loud": "keras/berisik", "free": "bebas/gratis", "busy": "sibuk", "empty": "kosong", "full": "penuh",
+            "simple": "sederhana", "complex": "kompleks/rumit", "important": "penting", "necessary": "perlu/diperlukan",
+            "possible": "mungkin", "impossible": "tidak mungkin", "right": "benar/kanan", "wrong": "salah",
+            "left": "kiri", "middle": "tengah", "first": "pertama", "last": "terakhir", "next": "berikutnya",
+            "previous": "sebelumnya", "today": "hari ini", "tomorrow": "besok", "yesterday": "kemarin",
+            "now": "sekarang", "later": "nanti", "always": "selalu", "never": "tidak pernah",
+            "sometimes": "kadang-kadang", "often": "sering", "rarely": "jarang", "everyone": "semua orang",
+            "someone": "seseorang", "nobody": "tidak ada orang", "everything": "semua hal",
+            "something": "sesuatu", "nothing": "tidak ada", "here": "di sini", "there": "di sana",
+            "where": "di mana", "when": "kapan", "why": "mengapa", "how": "bagaimana", "what": "apa",
+            "who": "siapa", "which": "yang mana"
+        }
+
+        self.reverse_dict = {v: k for k, v in self.dictionary.items()}
+        self.word_of_day = None
+        self.select_word_of_day()
+        self.favorites = []
+        self.current_word = None
+
+    def select_word_of_day(self):
+        today = datetime.now().date()
+        random.seed(str(today))
+        word = random.choice(list(self.dictionary.keys()))
+        self.word_of_day = (word, self.dictionary[word])
+
+    def search_word(self, word, mode):
+        word = word.strip().lower()
+
+        if not word:
+            return "Mohon masukkan kata yang ingin dicari!", None
+
+        if mode == "en_id":
+            result = self.dictionary.get(word)
+            if result:
+                return f"🔹 {word.capitalize()}\n\n📝 Artinya: {result}", (word, result)
+            else:
+                return f"❌ Kata '{word}' tidak ditemukan dalam kamus.\n\nCoba kata lain atau periksa ejaan Anda.", None
+        else:  # id_en
+            result = self.reverse_dict.get(word)
+            if result:
+                return f"🔹 {word.capitalize()}\n\n📝 English: {result}", (result, word)
+            else:
+                return f"❌ Kata '{word}' tidak ditemukan dalam kamus.\n\nCoba kata lain atau periksa ejaan Anda.", None
+
+    def add_to_favorites(self, word_pair):
+        if word_pair:
+            if word_pair not in self.favorites:
+                self.favorites.append(word_pair)
+                return f"'{word_pair[0]}' ditambahkan ke favorit!"
+            else:
+                return "Kata ini sudah ada di favorit!"
+        else:
+            return "Cari kata terlebih dahulu sebelum menambahkan ke favorit!"
+
+    def get_favorites(self):
+        if not self.favorites:
+            return "Belum ada kata favorit.\n\nCari kata dan tambahkan ke favorit!"
+        else:
+            fav_list_str = "⭐ Kata-kata Favorit Saya:\n"
+            for eng, ind in self.favorites:
+                fav_list_str += f"- {eng} → {ind}\n"
+            return fav_list_str
+
+    def run_console(self):
+        print("\n--- DictionaryLite - Kamus Mini 📚 (Console Mode) ---")
+        print(f"✨ Kata Hari Ini: {self.word_of_day[0]} → {self.word_of_day[1]}\n")
+
+        while True:
+            print("\nPilih opsi:")
+            print("1. Cari Kata")
+            print("2. Tambah Kata Terakhir ke Favorit")
+            print("3. Lihat Favorit")
+            print("4. Keluar")
+
+            choice = input("Masukkan pilihan Anda (1-4): ")
+
+            if choice == '1':
+                mode_choice = input("Pilih mode (1: English -> Indonesian, 2: Indonesian -> English): ")
+                if mode_choice == '1':
+                    mode = "en_id"
+                elif mode_choice == '2':
+                    mode = "id_en"
+                else:
+                    print("Pilihan mode tidak valid.")
+                    continue
+
+                search_term = input("Masukkan kata yang ingin dicari: ")
+                message, word_pair = self.search_word(search_term, mode)
+                print(message)
+                self.current_word = word_pair
+
+            elif choice == '2':
+                print(self.add_to_favorites(self.current_word))
+
+            elif choice == '3':
+                print(self.get_favorites())
+
+            elif choice == '4':
+                print("Terima kasih telah menggunakan DictionaryLite. Sampai jumpa!")
+                break
+            else:
+                print("Pilihan tidak valid. Silakan coba lagi.")
